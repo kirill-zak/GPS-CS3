@@ -1,6 +1,10 @@
 #!/bin/sh
 
-# Init config
+###############
+# Init config #
+###############
+
+# Set target path
 targerPath="$HOME/gps/logs"
 
 # Get source log file path
@@ -21,9 +25,6 @@ do
 	logYearMonth=`date -r $file +%Y-%m`
 	# Get date (year, month and day)
 	logDate=`date -r $file +%Y-%m-%d`
-	
-	# Get file name
-	#logFileName=`basename $file`
 
 	# Make target path
 	logTargerPath="$targerPath/$logYear/$logYearMonth/$logDate/"
