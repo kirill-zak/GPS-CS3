@@ -1,8 +1,8 @@
 #!/bin/sh
 
-###############
-# Init config #
-###############
+############################
+## Init config            ##
+############################
 
 # Set target path
 targetPath="$HOME/gps/logs"
@@ -13,8 +13,29 @@ if [ -z "$sourcePath" ]
 	then
 	echo "Source path is not specified"
 	exit 1
-
 fi
+
+#############################
+## Check software section  ##
+#############################
+
+## grep
+grep --version > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "Grep is not install!"
+	exit 1
+fi
+
+## GPSBabel
+gpsbabel -V > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "GPSBabel is not install!"
+	exit 1
+fi
+
+#############################
+## Work section            ##
+#############################
 
 # Get Sony NMEA log files in source path
 logFiles=$(grep -rl "^@Sonygps" "$sourcePath")
