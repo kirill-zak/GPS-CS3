@@ -4,8 +4,35 @@
 ## Init config            ##
 ############################
 
-# Set target path
-targetPath="$HOME/gps/logs"
+# Home folder name
+homeFolder=".gps-cs3"
+
+# Check configuration file
+if [ ! -f "$HOME/$homeFolder/settings.conf" ]; then
+	if [ ! -f "settings.default" ]; then
+		echo "Default settings not found!"
+		exit 1
+	fi
+
+	mkdir -p "$HOME/$homeFolder"
+	if [ $? -ne 0 ]; then
+		echo "Create folder for settings error!"
+		exit 1
+	fi
+
+	cp "settings.default" "$HOME/$homeFolder/settings.conf"
+	if [ $? -ne 0 ]; then
+		echo "Create configuration file error!"
+		exit 1
+	fi
+fi
+
+# Load configuration file
+. "$HOME/$homeFolder/settings.conf"
+if [ $? -ne 0 ];then
+	echo "Load configuration file error!"
+	exit 1
+fi
 
 # Get source log file path
 sourcePath=$1
@@ -51,7 +78,7 @@ do
 	fileName=$(basename "$file")
 
         # Make target path
-        logTargetPath="$targetPath/$logYear/$logYearMonth/$logDate"
+        logTargetPath="$logsPath/$logYear/$logYearMonth/$logDate"
 	
 	# Target file
 	logTargetFile="$logTargetPath/$fileName"
